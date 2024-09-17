@@ -1,17 +1,23 @@
 import itertools
 import pandas as pd
 import numpy as np
-import pickle
+import os
 
 def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
-                     variation=1):
+                     variation, data_file = 'data/'):
     '''
     This function determines the winner for each P1 & P2 sequence combination for the inputted play pattern.
     Note that black cards are represented by 0 and red cards are represented by 1. For example, 000, 010, and 111 
     represent BBB, BRB, and RRR respectively. **CONFIRM WITH GROUP!**
+    
+    Once the winners have been determined for a given combination, the results are recorded and saved in an array *for player 2*.
+    So it will be 0 if player 2 wins, and 1 if player 2 loses. The files are saved as numpy arrays to the /data folder.
     '''
     # Define all possible sequences of length 3
     possible_sequences = ['000', '001', '010', '011', '100', '101', '110', '111']
+
+    if variation != 1 and variation != 2:
+        raise(Exception('Please choose either variation = 1 or variation = 2.'))
     
     # Store results for each pair of sequences
     p2_wins = pd.DataFrame(columns=possible_sequences, index=possible_sequences)
@@ -27,7 +33,7 @@ def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
         if p1_seq == p2_seq:
             p2_wins.at[p1_seq, p2_seq] = None # Ask what we would do in this case
         
-        print('(' + p1_seq + ', ' + p2_seq + ')')
+        #print('(' + p1_seq + ', ' + p2_seq + ')')
 
         # Initalize index and win counts for each pair
         i = 0
@@ -72,33 +78,74 @@ def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
 
 
         if variation == 1:
-            print('P1 Cards: '+ str(p1_cards))
-            print('P2 Cards: '+ str(p2_cards))
+            #print('P1 Cards: '+ str(p1_cards))
+            #print('P2 Cards: '+ str(p2_cards))
             if p1_cards > p2_cards:
-                print("Player 1 wins!")
+                #print("Player 1 wins!")
                 p2_wins.at[p1_seq, p2_seq] = 0
                 # Add point to final score
             else:
-                print("Player 2 wins!")
+                #print("Player 2 wins!")
                 # Add point to final score
                 p2_wins.at[p1_seq, p2_seq] = 1
         else:
-            print('P1 Tricks: '+ str(p1_tricks))
-            print('P2 Tricks: '+ str(p2_tricks))
+            #print('P1 Tricks: '+ str(p1_tricks))
+            #print('P2 Tricks: '+ str(p2_tricks))
             if p1_tricks > p2_tricks:
-                print("Player 1 wins!")
+                #print("Player 1 wins!")
                 # Add point to final score
                 p2_wins.at[p1_seq, p2_seq] = 0
             else:
-                print("Player 2 wins!")
+                #print("Player 2 wins!")
                 # Add point to final score
                 p2_wins.at[p1_seq, p2_seq] = 1
-        print("")
+        #print("")
         p2_wins_arr = p2_wins.to_numpy()
-        file_name = f'data/{str(int(play_pattern, 2))}.npy' # convert the string to a binary number in base 2
+        if variation == 1:
+            variation_path = 'data_variation_1/'
+        else:
+            variation_path = 'data_variation_2/'
+        file_name = f'{data_file}{variation_path}{str(int(play_pattern, 2))}.npy' # convert the string to a binary number in base 2
         np.save(file_name,p2_wins_arr, allow_pickle=True)
     return p2_wins
 
 # Example: Testing with a random 52-bit binary string
-test_play = '1100110101011011101110001010100111101010101101010110'
+# test_play = '1100110101011011101110001010100111101010101101010110'
 # results = determine_winner(test_play,'000','111',variation=2)
+
+def sum_games(data = 'data/'):
+    '''Take all of the arrays in the /data folder, and add them together/divide by number of files to get the average'''
+    files = [file for file in os.listdir(data)] # iterate through /data directory
+    games_total = None # where the sum of the games is going
+    for file in files:
+        file_path = os.path.join(data,file) # get file name and directory
+        game = np.load(file_path, allow_pickle=True) # load the file
+        if games_total is None:
+            games_total = game # initialize games_total sum array
+        else:
+            games_total += game
+    num_games = len(files)
+    return np.divide(games_total, num_games) # divide each individual element by the number of games played
+
+def shuffle_deck(seed:None):
+    '''Generates a single shuffled deck'''
+    rng = np.random.default_rng(seed = seed)
+    deck = np.ndarray.flatten((np.stack((np.ones(26), np.zeros(26)), axis= 0).astype(int)))
+    rng.shuffle(deck)
+    return ''.join(map(str, deck))
+
+def play_n_games(n, data, seed=None, variation=1):
+    '''Plays the specified number of games.'''
+    if variation == 1:
+        variation_path = 'data_variation_1/'
+    else:
+        variation_path = 'data_variation_2/'
+    
+    for i in range(n):
+        deck = shuffle_deck(seed=seed)
+        arr = determine_winner(play_pattern = deck, variation = variation, data_file = data)
+    
+    print(f'{n} games played with variation {variation}.')
+    done_array = sum_games(data=f'{data}{variation_path}')
+
+    return done_array
