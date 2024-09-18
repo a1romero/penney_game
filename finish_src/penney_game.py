@@ -142,7 +142,11 @@ def play_n_games(n, data, seed=None, variation=1):
     return done_array
 
 def create_heatmap(array):
-    '''takes in an 8x8 array and makes a plotly.go heatmap'''
+    '''
+    This function takes in an 8x8 array and makes a heatmap using plotly.go. The heatmap displays the win ratios for the 2nd player,
+    who will choose their pattern based on what the 1st player chose. 
+    '''
+
     fig = go.Figure(data = go.Heatmap(
                    z = array, colorscale = 'Fall_r', # 'RdYlGn' or 'RdBu' or 'Oranges' or 'Fall_r'
                    hovertemplate = "%{y}:%{x} win ratio <br />%{z}", name = "", # the name part stops 'trace=0' from popping up
