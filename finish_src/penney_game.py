@@ -148,7 +148,7 @@ def create_heatmap(array):
                    hovertemplate = "%{y}:%{x} win ratio <br />%{z}", name = "", # the name part stops 'trace=0' from popping up
                    text=array, texttemplate='%{text:.2f}',  
                    x = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'], 
-                   y = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'],
+                   y = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR'],
                    hoverongaps = False))
     fig.update_layout(
         title = 'Penny Game: Player Two Win Ratio',  #this is the percentage of games that player 2 wins
