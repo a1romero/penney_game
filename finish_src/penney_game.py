@@ -140,3 +140,33 @@ def play_n_games(n, data, seed=None, variation=1):
     done_array = sum_games(data=f'{data}{variation_path}')
 
     return done_array
+
+def create_heatmap(array):
+    '''takes in an 8x8 array and makes a plotly.go heatmap'''
+    fig = go.Figure(data = go.Heatmap(
+                   z = array, colorscale = 'Fall_r', # 'RdYlGn' or 'RdBu' or 'Oranges' or 'Fall_r'
+                   hovertemplate = "%{y}:%{x} win ratio <br />%{z}", name = "", # the name part stops 'trace=0' from popping up
+                   text=array, texttemplate='%{text:.2f}',  
+                   x = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'], 
+                   y = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'],
+                   hoverongaps = False))
+    fig.update_layout(
+        title = 'Penny Game: Player Two Win Ratio',  #this is the percentage of games that player 2 wins
+        title_x = 0.5,
+        title_y = 0.9,
+        title_font_size = 25,
+        xaxis = dict(
+            title = 'Player Two Choice'  
+        ),
+        yaxis = dict(
+            title = 'Player One Choice'
+        ),
+        width = 600,
+        height = 600
+        )
+    fig.update_traces(
+        xgap = 1, ygap = 1
+        )
+
+    fig.show()
+    return None
