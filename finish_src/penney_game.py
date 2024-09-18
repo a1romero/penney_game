@@ -3,15 +3,20 @@ import pandas as pd
 import numpy as np
 import os
 
-def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
-                     variation, data_file = 'data/'):
+def determine_winner(play_pattern, variation, data_file = 'data/'):
     '''
     This function determines the winner for each P1 & P2 sequence combination for the inputted play pattern.
     Note that black cards are represented by 0 and red cards are represented by 1. For example, 000, 010, and 111 
-    represent BBB, BRB, and RRR respectively. **CONFIRM WITH GROUP!**
+    represent BBB, BRB, and RRR respectively.
     
     Once the winners have been determined for a given combination, the results are recorded and saved in an array *for player 2*.
-    So it will be 0 if player 2 wins, and 1 if player 2 loses. The files are saved as numpy arrays to the /data folder.
+    So it will be 1 if player 2 wins, and 0 if player 2 loses. The files are saved as numpy arrays to the /data folder.
+
+    Parameters:
+    play_pattern: takes in a binary string which represents the deck play pattern (52-digits in length)
+    variation: takes in the kind of variation for the game. An input 1, represents the card count variation and 2 represents 
+    the trick count variation
+    data_file: takes in data folder path where play results are to be saved
     '''
     # Define all possible sequences of length 3
     possible_sequences = ['000', '001', '010', '011', '100', '101', '110', '111']
@@ -27,14 +32,11 @@ def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
 
     for p1_seq, p2_seq in combinations:
     
-        #p1_seq = p1_test_seq
-        #p2_seq = p2_test_seq
-        # If Player 1 and Player 2 have the same sequence, ***
-        if p1_seq == p2_seq:
-            p2_wins.at[p1_seq, p2_seq] = None # Ask what we would do in this case
-        
-        #print('(' + p1_seq + ', ' + p2_seq + ')')
 
+        # If Player 1 and Player 2 have the same sequence, return None
+        if p1_seq == p2_seq:
+            p2_wins.at[p1_seq, p2_seq] = None
+        
         # Initalize index and win counts for each pair
         i = 0
         pile = 0
@@ -44,6 +46,7 @@ def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
         p1_tricks = 0
         p2_tricks = 0
         
+        # Iterate through the play pattern
         while i <= len(play_pattern) - 3:
 
             # Fetch 3-card sequence
@@ -75,31 +78,22 @@ def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
                 i += 1
                 pile += 1
 
-
-
+    # Count the Player 2 wins
         if variation == 1:
-            #print('P1 Cards: '+ str(p1_cards))
-            #print('P2 Cards: '+ str(p2_cards))
             if p1_cards > p2_cards:
-                #print("Player 1 wins!")
                 p2_wins.at[p1_seq, p2_seq] = 0
                 # Add point to final score
             else:
-                #print("Player 2 wins!")
                 # Add point to final score
                 p2_wins.at[p1_seq, p2_seq] = 1
         else:
-            #print('P1 Tricks: '+ str(p1_tricks))
-            #print('P2 Tricks: '+ str(p2_tricks))
+
             if p1_tricks > p2_tricks:
-                #print("Player 1 wins!")
                 # Add point to final score
                 p2_wins.at[p1_seq, p2_seq] = 0
             else:
-                #print("Player 2 wins!")
                 # Add point to final score
                 p2_wins.at[p1_seq, p2_seq] = 1
-        #print("")
         p2_wins_arr = p2_wins.to_numpy()
         if variation == 1:
             variation_path = 'data_variation_1/'
@@ -109,9 +103,6 @@ def determine_winner(play_pattern, #p1_test_seq, p2_test_seq,
         np.save(file_name,p2_wins_arr, allow_pickle=True)
     return p2_wins
 
-# Example: Testing with a random 52-bit binary string
-# test_play = '1100110101011011101110001010100111101010101101010110'
-# results = determine_winner(test_play,'000','111',variation=2)
 
 def sum_games(data = 'data/'):
     '''Take all of the arrays in the /data folder, and add them together/divide by number of files to get the average'''
