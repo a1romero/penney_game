@@ -144,8 +144,14 @@ def play_n_games(n, data, seed=None, variation=1):
 
 def create_heatmap(array):
     '''
-    This function takes in an 8x8 array and makes a heatmap using plotly.go. The heatmap displays the win ratios for the 2nd player,
-    who will choose their pattern based on what the 1st player chose. 
+    This function takes in an 8x8 array and makes a heatmap using plotly.go. The heatmap displays the win ratios for the 
+    2nd player, who will choose their pattern based on what the 1st player chose. The heatmap is scaled so that percentages 
+    under 0.5 show up orange while those over 0.5 are green, with the midpoint 0.5 being yellow. The top left to bottom
+    right diagonal should be None values which will show up grey, since these are matches that wouldn't occur (ex. RRR v RRR).
+    From top down (and right to left), the order of the sequences is 'RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'.
+
+    Parameters: 
+    array: an 8x8 array with numbers between 0 and 1 representing the percentage of games that payer 2 won
     '''
 
     fig = go.Figure(data = go.Heatmap(
