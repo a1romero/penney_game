@@ -176,7 +176,7 @@ def create_heatmap(array):
     fig.show()
     return None
 
-def run_simulation(n_games, data='data/', seed=None, variation=1):
+def run_simulation(n_games, data='data/', variation=1):
     '''
     This function runs the entire simulation process: 
     shuffles the deck, plays the specified number of games,
@@ -188,5 +188,5 @@ def run_simulation(n_games, data='data/', seed=None, variation=1):
     seed: Seed for random number generation.
     variation: Game variation (1 or 2).
     '''
-    done_array = play_n_games(n_games, data, seed, variation)
+    done_array = play_n_games(n_games, data, variation)
     create_heatmap(done_array)
