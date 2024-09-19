@@ -2,6 +2,7 @@ import itertools
 import pandas as pd
 import numpy as np
 import os
+import plotly.graph_objects as go
 
 def determine_winner(play_pattern, variation, data_file = 'data/'):
     '''
@@ -174,3 +175,18 @@ def create_heatmap(array):
 
     fig.show()
     return None
+
+def run_simulation(n_games, data='data/', seed=None, variation=1):
+    '''
+    This function runs the entire simulation process: 
+    shuffles the deck, plays the specified number of games,
+    calculates the average results, and creates a heatmap.
+
+    Parameters:
+    n_games: Number of games to play.
+    data: Directory to save/load game data.
+    seed: Seed for random number generation.
+    variation: Game variation (1 or 2).
+    '''
+    done_array = play_n_games(n_games, data, seed, variation)
+    create_heatmap(done_array)
