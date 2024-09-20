@@ -154,7 +154,7 @@ def create_heatmap(array):
     array: an 8x8 array with numbers between 0 and 1 representing the percentage of games that payer 2 won
     '''
 
-    array[0,0] = None
+    array[0,0] = None  # this avoids the listing of "nonsense" games (ex. RRR vs RRR) as a percentage
     array[1,1] = None
     array[2,2] = None
     array[3,3] = None
