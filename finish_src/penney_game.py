@@ -107,7 +107,7 @@ def determine_winner(play_pattern, variation, data_file = 'data/'):
 
 def sum_games(data = 'data/'):
     '''Take all of the arrays in the /data folder, and add them together/divide by number of files to get the average'''
-    files = [file for file in os.listdir(data)] # iterate through /data directory
+    files = [file for file in os.listdir(data) if os.path.isfile(os.path.join(data, file))] # iterate through /data directory, only process files
     games_total = None # where the sum of the games is going
     for file in files:
         file_path = os.path.join(data,file) # get file name and directory
