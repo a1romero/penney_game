@@ -158,7 +158,7 @@ def create_heatmap(array):
     array[1,1] = None
     array[2,2] = None
     array[3,3] = None
-    array[4,3] = None
+    array[4,4] = None
     array[5,5] = None
     array[6,6] = None
     array[7,7] = None
