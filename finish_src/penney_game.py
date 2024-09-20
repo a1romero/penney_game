@@ -107,7 +107,7 @@ def determine_winner(play_pattern, variation, data_file = 'data/'):
 
 def sum_games(data = 'data/'):
     '''Take all of the arrays in the /data folder, and add them together/divide by number of files to get the average'''
-    files = [file for file in os.listdir(data)] # iterate through /data directory
+    files = [file for file in os.listdir(data) if os.path.isfile(os.path.join(data, file))] # iterate through /data directory, only process files
     games_total = None # where the sum of the games is going
     for file in files:
         file_path = os.path.join(data,file) # get file name and directory
@@ -144,8 +144,14 @@ def play_n_games(n, data, seed=None, variation=1):
 
 def create_heatmap(array):
     '''
-    This function takes in an 8x8 array and makes a heatmap using plotly.go. The heatmap displays the win ratios for the 2nd player,
-    who will choose their pattern based on what the 1st player chose. 
+    This function takes in an 8x8 array and makes a heatmap using plotly.go. The heatmap displays the win ratios for the 
+    2nd player, who will choose their pattern based on what the 1st player chose. The heatmap is scaled so that percentages 
+    under 0.5 show up orange while those over 0.5 are green, with the midpoint 0.5 being yellow. The top left to bottom
+    right diagonal should be None values which will show up grey, since these are matches that wouldn't occur (ex. RRR v RRR).
+    From top down (and right to left), the order of the sequences is 'RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'.
+
+    Parameters: 
+    array: an 8x8 array with numbers between 0 and 1 representing the percentage of games that payer 2 won
     '''
 
     fig = go.Figure(data = go.Heatmap(
@@ -176,7 +182,7 @@ def create_heatmap(array):
     fig.show()
     return None
 
-def run_simulation(n_games, data='data/', seed=None, variation=1):
+def run_simulation(n_games, data='data/', variation=1):
     '''
     This function runs the entire simulation process: 
     shuffles the deck, plays the specified number of games,
@@ -188,5 +194,5 @@ def run_simulation(n_games, data='data/', seed=None, variation=1):
     seed: Seed for random number generation.
     variation: Game variation (1 or 2).
     '''
-    done_array = play_n_games(n_games, data, seed, variation)
+    done_array = play_n_games(n_games, data, variation)
     create_heatmap(done_array)
