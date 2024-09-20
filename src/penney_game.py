@@ -154,6 +154,15 @@ def create_heatmap(array):
     array: an 8x8 array with numbers between 0 and 1 representing the percentage of games that payer 2 won
     '''
 
+    array[0,0] = None
+    array[1,1] = None
+    array[2,2] = None
+    array[3,3] = None
+    array[4,3] = None
+    array[5,5] = None
+    array[6,6] = None
+    array[7,7] = None
+
     fig = go.Figure(data = go.Heatmap(
                    z = array, colorscale = 'Fall_r', # 'RdYlGn' or 'RdBu' or 'Oranges' or 'Fall_r'
                    hovertemplate = "%{y}:%{x} win ratio <br />%{z}", name = "", # the name part stops 'trace=0' from popping up
