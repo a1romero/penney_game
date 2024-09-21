@@ -81,7 +81,7 @@ def determine_winner(play_pattern, variation, data_file = 'data/'):
 
     # Count the Player 2 wins
         if variation == 1:
-            if p1_cards >= p2_cards:
+            if p1_cards > p2_cards:
                 p2_wins.at[p1_seq, p2_seq] = 0
                 # Add point to final score
             else:
@@ -89,7 +89,7 @@ def determine_winner(play_pattern, variation, data_file = 'data/'):
                 p2_wins.at[p1_seq, p2_seq] = 1
         else:
 
-            if p1_tricks >= p2_tricks:
+            if p1_tricks > p2_tricks:
                 # Add point to final score
                 p2_wins.at[p1_seq, p2_seq] = 0
             else:
@@ -104,9 +104,10 @@ def determine_winner(play_pattern, variation, data_file = 'data/'):
         np.save(file_name,p2_wins_arr, allow_pickle=True)
     return p2_wins
 
+
 def sum_games(data = 'data/'):
     '''Take all of the arrays in the /data folder, and add them together/divide by number of files to get the average'''
-    files = [file for file in os.listdir(data) if os.path.isfile(os.path.join(data, file))] # iterate through /data directory, only process files
+    files = [file for file in os.listdir(data) if os.path.isfile(os.path.join(data, file))] # iterate through /data directory
     games_total = None # where the sum of the games is going
     for file in files:
         file_path = os.path.join(data,file) # get file name and directory
@@ -132,11 +133,8 @@ def play_n_games(n, data, seed=None, variation=1):
     else:
         variation_path = 'data_variation_2/'
     
-    rng_array_maker = np.random.default_rng(seed=seed)
-    seeds = rng_array_maker.integers(1, 1000, size= n, dtype=int)
-    
-    for i in seeds:
-        deck = shuffle_deck(seed=i)
+    for i in range(n):
+        deck = shuffle_deck(seed=seed)
         arr = determine_winner(play_pattern = deck, variation = variation, data_file = data)
     
     print(f'{n} games played with variation {variation}.')
@@ -155,15 +153,6 @@ def create_heatmap(array):
     Parameters: 
     array: an 8x8 array with numbers between 0 and 1 representing the percentage of games that payer 2 won
     '''
-
-    array[0,0] = None  # this avoids the listing of "nonsense" games (ex. RRR vs RRR) as a percentage
-    array[1,1] = None
-    array[2,2] = None
-    array[3,3] = None
-    array[4,4] = None
-    array[5,5] = None
-    array[6,6] = None
-    array[7,7] = None
 
     fig = go.Figure(data = go.Heatmap(
                    z = array, colorscale = 'Fall_r', # 'RdYlGn' or 'RdBu' or 'Oranges' or 'Fall_r'
@@ -193,7 +182,7 @@ def create_heatmap(array):
     fig.show()
     return None
 
-def run_simulation(n_games, seed = None, data='data/'):
+def run_simulation(n_games, data='data/', variation=1):
     '''
     This function runs the entire simulation process: 
     shuffles the deck, plays the specified number of games,
@@ -205,7 +194,5 @@ def run_simulation(n_games, seed = None, data='data/'):
     seed: Seed for random number generation.
     variation: Game variation (1 or 2).
     '''
-    for variation in [1, 2]:
-        print(f"Variation {variation}")
-        done_array = play_n_games(n_games, data, seed, variation)
-        create_heatmap(done_array)
+    done_array = play_n_games(n_games, data, variation)
+    create_heatmap(done_array)
