@@ -1,5 +1,6 @@
 import itertools
 import pandas as pd
+from tqdm import tqdm
 import numpy as np
 import os
 import plotly.graph_objects as go
@@ -147,7 +148,7 @@ def play_n_games(n, data, seed=None, variation=1):
     return done_array
 
 
-def create_heatmap(array):
+def create_heatmap(array, variation):
     '''
     This function takes in an 8x8 array and makes a heatmap using plotly.go. The heatmap displays the win ratios for the 
     2nd player, who will choose their pattern based on what the 1st player chose. The heatmap is scaled so that percentages 
@@ -176,7 +177,7 @@ def create_heatmap(array):
                    y = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'],
                    hoverongaps = False))
     fig.update_layout(
-        title = 'Penny Game: Player Two Win Ratio',  #this is the percentage of games that player 2 wins
+        title = 'Penney Game: Player Two Win Ratio',  #this is the percentage of games that player 2 wins
         title_x = 0.5,
         title_y = 0.9,
         title_font_size = 25,
@@ -194,6 +195,8 @@ def create_heatmap(array):
         )
 
     fig.show()
+    path = f"figures/heatmap_variation_{str(variation)}.html"
+    fig.write_html(path)
     return None
 
 def run_simulation(n_games, seed = None, data='data/'):
@@ -211,4 +214,4 @@ def run_simulation(n_games, seed = None, data='data/'):
     for variation in [1, 2]:
         print(f"Variation {variation}")
         done_array = play_n_games(n_games, data, seed, variation)
-        create_heatmap(done_array)
+        create_heatmap(done_array, variation)

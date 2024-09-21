@@ -14,6 +14,8 @@ Files included:
 **src/**
 - penney_game.py: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
 
+**figures/** Stores figures (in .html) from the most recent run_simulation(). These files can be opened locally.
+
 **penney_game**
 - penney_game_simulation.ipynb: a file which runs the code from penney_game.py
 - .gitignore: specifies which files or directories should be ignored by git 
@@ -40,7 +42,7 @@ Cynthia: Wrote simulation function: randomly generates user-specified number of 
 
 Paola: Wrote and debugged determine_winner() function. Focused on iterating through the play pattern given by the simulation team and determining who won the round for specific variation. 
 
-Al: Added code to determine_winner() to return and save an array as a .npy file. Wrote code to iterate over the stored arrays and find the win percentage. Coded a combined function to export a win percentage array.
+Al: Added code to determine_winner() to return and save an array as a .npy file. Wrote code to iterate over the stored arrays and find the win percentage. Coded a combined function to export a win percentage array. 
 
 Mary: Tested determine_winner()  function. Wrote function to run all combinations. Helped combine all functions in one .py file so heatmap can be generated with one line of code. Checked final probabilities and corrected labeling issues with heatmap.  
 
