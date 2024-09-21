@@ -137,12 +137,15 @@ def play_n_games(n, data, seed=None, variation=1):
     
     for i in seeds:
         deck = shuffle_deck(seed=i)
+        #print(f'Game deck: {deck}')
         arr = determine_winner(play_pattern = deck, variation = variation, data_file = data)
     
     print(f'{n} games played with variation {variation}.')
     done_array = sum_games(data=f'{data}{variation_path}')
 
+    #print("Done Array:\n", done_array)
     return done_array
+
 
 def create_heatmap(array):
     '''
@@ -169,8 +172,8 @@ def create_heatmap(array):
                    z = array, colorscale = 'Fall_r', # 'RdYlGn' or 'RdBu' or 'Oranges' or 'Fall_r'
                    hovertemplate = "%{y}:%{x} win ratio <br />%{z}", name = "", # the name part stops 'trace=0' from popping up
                    text=array, texttemplate='%{text:.2f}',  
-                   x = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'], 
-                   y = ['BBB', 'BBR', 'BRB', 'BRR', 'RBB', 'RBR', 'RRB', 'RRR'],
+                   x = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'],
+                   y = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'],
                    hoverongaps = False))
     fig.update_layout(
         title = 'Penny Game: Player Two Win Ratio',  #this is the percentage of games that player 2 wins
