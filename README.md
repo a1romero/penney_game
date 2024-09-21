@@ -13,15 +13,19 @@ Files included:
 
 **src/**
 - penney_game.py: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
-- play_n_games: Plays the specified number of games, and appends them to the proper data folder.
-    n (int): number of games to add to the data
-    data (str): path to data directory
-    seed (int): seed used to generate an array of seeds for the generated decks
-    variation (int): specifies the variation to play. Should be either 1 or 2.
-    find_sum (boolean): if True, return a numpy array of the current win percentages for the variation. If False, return nothing.
+
+    **Within `penney_game.py` these two functions will return the desired outputs:**
+- **play_n_games**: Plays the specified number of games, and appends them to the proper data folder.
+    * n (int): number of games to add to the data
+    * data (str): path to data directory
+    * seed (int): seed used to generate an array of seeds for the generated decks
+    * variation (int): specifies the variation to play. Should be either 1 or 2.
+    * find_sum (boolean): if True, return a numpy array of the current win percentages for the variation. If False, return nothing.
+
     Games are appended as .npy files in a data folder.
-- return_heatmap: Sums the current saved set of games, then saves it as a heatmap.
-    data (str): the data path which retrieves data for both variations.
+
+- **return_heatmap**: Sums the current saved set of games, then saves it as a heatmap.
+    * data (str): the data path which retrieves data for both variations.
 
 **figures/** Stores figures (in .html) from the most recent run_simulation(). These files can be opened locally.
 
@@ -32,7 +36,11 @@ Files included:
 
 ## How it works
 
-The two required functions are `play_n_games` and `return_heatmap`. `play_n_games` appends the specified number of games to the proper data folder. `create_heatmap` returns heatmaps for variations 1 and 2, and saves them as .html files in the figures folder.
+The two required functions are `play_n_games` and `return_heatmap`. Implementation examples are included in `penney_game_simulation.ipynb`.
+
+`play_n_games` generates and adds the specified number of games to the proper data folder. This function requires the specification of the variation number. More information on inputs is included in the files section.
+
+`create_heatmap` returns heatmaps for variations 1 and 2, and saves them as .html files in the figures folder.
 
 The run_simulation() function plays a specified number of games and automatically runs two variations: winning by number of cards (variation 1) and winning by number of tricks (variation 2). The function also allows the user to set a random seed for reproducibility.
 
