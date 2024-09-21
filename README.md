@@ -1,19 +1,23 @@
-# automations project
-
 # Penney’s Game Simulation
 
-This project simulates a version of Penney’s Game played with cards in order to determine the optimal starting sequences. A full explanation of the game can be found [here.] (https://en.wikipedia.org/wiki/Penney%27s_game) 
+This project simulates a version of Penney’s Game played with cards in order to determine the optimal starting sequences. A full explanation of the game can be found [here](https://en.wikipedia.org/wiki/Penney%27s_game). 
 
 Variation 1: The player whose sequence appeared receives all of the cards in the pile, the pile is cleared, and the game continues until the deck is exhausted. Any remaining cards at the end of the game are discarded. The player with the most cards in their pile wins.
 Variation 2: The player whose sequence appeared receives a point for winning the “trick”. The card pile is cleared, and the game continues until the deck is exhausted. Any remaining cards at the end of the game are discarded. The player who won the most tricks wins the game.
 
 Files included:
-data: Stores win results for Player 2 for each play (iteration). Each file is titled by a number representing the play pattern converted into a number using base 2.
-data_variation_1: Stores win results for Player 2 for game plays on variation 1.
-data_variation_2: Stores win results for Player 2 for game plays on variation 2.
-src
-penney_game.py: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
-.ipynb: a file which runs the code from penney_game.py
+
+**data**: Stores win results for Player 2 for each play (iteration). Each file is titled by a number representing the play pattern converted into a number using base 2.
+- data_variation_1: Stores win results for Player 2 for game plays on variation 1.
+- data_variation_2: Stores win results for Player 2 for game plays on variation 2.
+
+**src**:
+- penney_game.py: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
+
+**penney_game**
+- penney_game_simulation.ipynb: a file which runs the code from penney_game.py
+- .gitignore: specifies which files or directories should be ignored by git 
+
 
 ## How it works
 
@@ -31,6 +35,7 @@ Evan: Helped with initial deck creation and simulation. Created a wrapper functi
 Cynthia: Wrote simulation function: randomly generates user-specified number of card decks, represented by a string.
 
 **Data Management Team**:
+
 Paola: Wrote and debugged determine_winner() function. Focused on iterating through the play pattern given by the simulation team and determining who won the round for specific variation. 
 
 Al: Added code to determine_winner() to return and save an array as a .npy file. Wrote code to iterate over the stored arrays and find the win percentage. Coded a combined function to export a win percentage array.
@@ -38,4 +43,5 @@ Al: Added code to determine_winner() to return and save an array as a .npy file.
 Mary: Tested determine_winner()  function. Wrote function to run all combinations. Helped combine all functions in one .py file so heatmap can be generated with one line of code. Checked final probabilities and corrected labeling issues with heatmap.  
 
 **Visualization Team**:
+
 Arianna: Wrote the create_heatmap() function and tested it on sample data.
