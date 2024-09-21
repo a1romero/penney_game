@@ -1,6 +1,5 @@
 import itertools
 import pandas as pd
-from tqdm import tqdm
 import numpy as np
 import os
 import plotly.graph_objects as go
@@ -126,8 +125,16 @@ def shuffle_deck(seed:None):
     rng.shuffle(deck)
     return ''.join(map(str, deck))
 
-def play_n_games(n, data, seed=None, variation=1):
-    '''Plays the specified number of games.'''
+def play_n_games(n, data, seed=None, variation=1, find_sum= True): # find_sum = True is default to prevent errors in other functions
+    '''Plays the specified number of games, and appends them to the proper data folder.
+        n (int): number of games to add to the data
+        data (str): path to data directory
+        seed (int): seed used to generate an array of seeds for the generated decks
+        variation (int): specifies the variation to play. Should be either 1 or 2.
+        find_sum (boolean): if True, return a numpy array of the current win percentages for the variation. If False, return nothing.
+
+        Games are appended as .npy files in a data folder.'''
+    
     if variation == 1:
         variation_path = 'data_variation_1/'
     else:
@@ -142,11 +149,12 @@ def play_n_games(n, data, seed=None, variation=1):
         arr = determine_winner(play_pattern = deck, variation = variation, data_file = data)
     
     print(f'{n} games played with variation {variation}.')
-    done_array = sum_games(data=f'{data}{variation_path}')
 
-    #print("Done Array:\n", done_array)
-    return done_array
-
+    if find_sum == True: # return the sum arrays if needed
+        done_array = sum_games(data=f'{data}{variation_path}')
+        #print("Done Array:\n", done_array)
+        return done_array
+    return # otherwise return nothing
 
 def create_heatmap(array, variation):
     '''
@@ -169,6 +177,12 @@ def create_heatmap(array, variation):
     array[6,6] = None
     array[7,7] = None
 
+    variation_name = ' ' # provides more information for the visualization
+    if variation == 1:
+        variation_name = ' cards'
+    else:
+        variation_name = ' tricks'
+    
     fig = go.Figure(data = go.Heatmap(
                    z = array, colorscale = 'Fall_r', # 'RdYlGn' or 'RdBu' or 'Oranges' or 'Fall_r'
                    hovertemplate = "%{y}:%{x} win ratio <br />%{z}", name = "", # the name part stops 'trace=0' from popping up
@@ -177,10 +191,10 @@ def create_heatmap(array, variation):
                    y = ['RRR', 'RRB', 'RBR', 'RBB', 'BRR', 'BRB', 'BBR', 'BBB'],
                    hoverongaps = False))
     fig.update_layout(
-        title = 'Penney Game: Player Two Win Ratio',  #this is the percentage of games that player 2 wins
+        title = f'Penney Game, variation {str(variation)}: Player Two Win Ratio for{variation_name}',  #this is the percentage of games that player 2 wins
         title_x = 0.5,
         title_y = 0.9,
-        title_font_size = 25,
+        title_font_size = 20,
         xaxis = dict(
             title = 'Player Two Choice'  
         ),
@@ -215,3 +229,11 @@ def run_simulation(n_games, seed = None, data='data/'):
         print(f"Variation {variation}")
         done_array = play_n_games(n_games, data, seed, variation)
         create_heatmap(done_array, variation)
+    return
+
+def return_heatmaps(data):
+    '''Sums the current saved set of games, then saves it as a heatmap.
+        data (str): the data path which retrieves data for both variations.'''
+    for variation in [1,2]:
+        sum_game = sum_games(f'{data}data_variation_{str(variation)}')
+        create_heatmap(sum_game, variation)
