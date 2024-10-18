@@ -120,8 +120,8 @@ def sum_games(data: str, average: bool):
             games_total += game
     num_games = len(files)
     if average:
-        return np.divide(games_total, num_games)
-    return games_total # divide each individual element by the number of games played
+        return np.divide(games_total, num_games), num_games
+    return games_total, num_games # divide each individual element by the number of games played
 
 def play_n_games(n, data):
     for i in range(n):
@@ -130,10 +130,11 @@ def play_n_games(n, data):
 
     filename = ['cards_win/', 'cards_draw/', 'tricks_win/', 'tricks_draw/']
     results = {}
+    n_games = []
 
     for folder in filename:
         if folder == 'cards_win/' or folder == 'tricks_win/':
-            results[folder] = sum_games(f'{data}{folder}', True)
+            results[folder], game_num = sum_games(f'{data}{folder}', True)
         elif folder == 'cards_draw/' or folder == 'tricks_draw/':
-            results[folder] = sum_games(f'{data}{folder}', False)
+            results[folder], game_num = sum_games(f'{data}{folder}', False)
     return results

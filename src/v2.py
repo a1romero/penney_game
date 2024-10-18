@@ -18,9 +18,13 @@ def play_n_games(n, data):
 
     filename = ['cards_win/', 'cards_draw/', 'tricks_win/', 'tricks_draw/']
     results = {}
+    n_games = []
+
     for folder in filename:
         if folder == 'cards_win/' or folder == 'tricks_win/':
-            results[folder] = processing.sum_games(f'{data}{folder}', True)
+            results[folder], g_num = processing.sum_games(f'{data}{folder}', True)
         elif folder == 'cards_draw/' or folder == 'tricks_draw/':
-            results[folder] = processing.sum_games(f'{data}{folder}', False)
+            results[folder], g_num = processing.sum_games(f'{data}{folder}', False)
+        n_games.append(g_num)
+    results['n'] = n_games[0]
     return results
