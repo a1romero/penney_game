@@ -100,10 +100,10 @@ def play_one_deck(deck: str,
         draws_tricks.at[seq1, seq2] = tricks_draw
     
     deck_name = str(int(deck, 2))
-    np.save(f'{data}cards_win/{deck_name}.npy', p2_wins_cards, allow_pickle = True)
-    np.save(f'{data}tricks_win/{deck_name}.npy', p2_wins_tricks, allow_pickle = True)
-    np.save(f'{data}cards_draw/{deck_name}.npy', draws_cards, allow_pickle = True)
-    np.save(f'{data}tricks_draw/{deck_name}.npy', draws_tricks, allow_pickle = True)
+    np.save(f'{data}cards/{deck_name}.npy', p2_wins_cards, allow_pickle = True)
+    np.save(f'{data}tricks/{deck_name}.npy', p2_wins_tricks, allow_pickle = True)
+    np.save(f'{data}card_ties/{deck_name}.npy', draws_cards, allow_pickle = True)
+    np.save(f'{data}trick_ties/{deck_name}.npy', draws_tricks, allow_pickle = True)
 
 def sum_games(data: str, average: bool):
     '''Take all of the arrays in the specified folder, and add them together/divide by number of files to get the average 
@@ -128,13 +128,13 @@ def play_n_games(n, data):
         deck = shuffle_deck(i)
         play_one_deck(data = 'data/', deck = deck)
 
-    filename = ['cards_win/', 'cards_draw/', 'tricks_win/', 'tricks_draw/']
+    filename = ['cards/', 'card_ties/', 'tricks/', 'trick_ties/']
     results = {}
     n_games = []
 
     for folder in filename:
-        if folder == 'cards_win/' or folder == 'tricks_win/':
+        if folder == 'cards/' or folder == 'tricks/':
             results[folder], game_num = sum_games(f'{data}{folder}', True)
-        elif folder == 'cards_draw/' or folder == 'tricks_draw/':
+        elif folder == 'card_ties/' or folder == 'trick_ties/':
             results[folder], game_num = sum_games(f'{data}{folder}', False)
     return results
