@@ -14,7 +14,7 @@ def shuffle_deck(seed:None):
 
 def play_n_games(n, data):
     for i in range(n):
-        deck = shuffle_deck(i)
+        deck = shuffle_deck()
         processing.play_one_deck(data = 'data/', deck = deck)
 
     filename = ['cards/', 'card_ties/', 'tricks/', 'trick_ties/']
