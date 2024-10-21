@@ -39,7 +39,8 @@ def results_for_viz(x):
     x['card_ties/'] = x['card_ties/'].tolist()
     x['trick_ties/'] = x['trick_ties/'].tolist()
 
-    if not os.path.exists('results'):
-        os.makedirs('results')
-    with open(os.path.join('results','results.json'), 'w') as json_file:
+    data_folder = 'results'
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
+    with open(os.path.join(data_folder,'results.json'), 'w') as json_file:
         json.dump(x, json_file, indent=4)

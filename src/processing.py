@@ -2,10 +2,11 @@ import numpy as np
 import pandas as pd
 import os
 import itertools
+from typing import Tuple
 
 def score_deck(deck: str,
                seq1: str,
-               seq2: str) -> tuple[int]:
+               seq2: str) -> Tuple[int]:
     '''
     Given a shuffled deck of cards, a sequence chosen by player1, and a sequence chosen by player two, 
     return the number of cards/tricks for each variation of Penney's Game.
