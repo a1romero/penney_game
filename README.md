@@ -84,30 +84,30 @@ To get heatmaps for the data, run the following code:
 
 ## Files and Folders Included
 
-**data/** Stores win results for Player 2 for each play (iteration). Each file is titled by a number representing the play pattern.
+`data/` Stores win results for Player 2 for each play (iteration). Each file is titled by a number representing the play pattern.
 
-- data_variation_1: Stores win results for Player 2 for game plays on variation 1.
+- `data_variation_1`: Stores win results for Player 2 for game plays on variation 1.
 
-- data_variation_2: Stores win results for Player 2 for game plays on variation 2.
+- `data_variation_2`: Stores win results for Player 2 for game plays on variation 2.
 
   
 
-**figures/** Stores figures generated from the data. Each file is titled by a number representing the play pattern.
+`figures/` Stores figures generated from the data. Each file is titled by a number representing the play pattern.
 
--   heatmap_variation_1.html: The heatmap for win results for Player 2 game plays on variation 1.
+-   `heatmap_variation_1.html`: The heatmap for win results for Player 2 game plays on variation 1.
     
--   heatmap_variation_2.html: The heatmap for win results for Player 2 game plays on variation 2.
+-   `heatmap_variation_2.html`: The heatmap for win results for Player 2 game plays on variation 2.
     
 
   
 
-**results/** contains [TODO]
+`results/` contains [TODO]
 
   
 
-**src/**
+    src/
 
-- **penney_game.py**: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
+- `penney_game.py`: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
 
   
 
@@ -184,3 +184,4 @@ Mary: Tested `determine_winner()`  function. Wrote function to run all combinati
 **Visualization Team**:
 
 Arianna: Wrote the `create_heatmap()` function and tested it on sample data.
+
