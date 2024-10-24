@@ -1,54 +1,170 @@
-# Penney’s Game Simulation
+# Penney Game
 
-This project simulates a version of Penney’s Game played with cards in order to determine the optimal starting sequences. A full explanation of the game can be found [here](https://en.wikipedia.org/wiki/Penney%27s_game). 
+  
+
+## Description
+
+This project simulates a version of Penney’s Game played with cards in order to determine the optimal starting sequences. A full explanation of the game can be found [here](https://en.wikipedia.org/wiki/Penney%27s_game).
+
+  
 
 Variation 1: The player whose sequence appeared receives all of the cards in the pile, the pile is cleared, and the game continues until the deck is exhausted. Any remaining cards at the end of the game are discarded. The player with the most cards in their pile wins.
-Variation 2: The player whose sequence appeared receives a point for winning the “trick”. The card pile is cleared, and the game continues until the deck is exhausted. Any remaining cards at the end of the game are discarded. The player who won the most tricks wins the game.
 
-Files included:
+Variation 2: The player whose sequence appeared receives a point for winning the “**trick**”. The card pile is cleared, and the game continues until the deck is exhausted. Any remaining cards at the end of the game are discarded. The player who won the most tricks wins the game.
 
-**data/** Stores win results for Player 2 for each play (iteration). Each file is titled by a number representing the play pattern converted into a number using base 2.
+  
+  
+  
+
+## Getting Started
+
+<!---
+explain how code works, show how to run code yourself
+also explain avail options>. Short n sweet
+-->
+
+Required files are: `data/`
+
+The code can be most easily run in a Jupyter notebook; the **penney_game_simulation.ipynb** file demonstrates how to do this.
+
+<br>
+
+In a notebook file, import the necessary files from `src` like so:
+
+```import src.penney_game as game```
+
+Ensure that the following **empty** folders exist alongside the notebook:
+
+- data
+
+  - data_variation_1
+
+  - data_variation_2
+
+- figures
+
+<br>
+
+Then, play games and obtain corresponding heatmaps with the following code:
+
+```game_and_heatmap = game.run_simulation(n_games=2, seed=None, data = 'data/')```
+
+<br>
+
+Options:
+
+-   `n_games`: number of games to simulate
+    
+-   `seed`: optional numpy random seed
+    
+
+<br>  
+To only play games, run the following code:
+
+```add_games = game.play_n_games(n=2, data='data/', seed = None, variation= 1, find_sum = False)```
+
+
+Options:
+-   `n`: number of games to simulate
+    
+-   `seed`: optional numpy random seed
+    
+-   `variation`: version of game to play; 1 = based on number of cards won, 2 = based on number of tricks won
+<br>
+
+To get heatmaps for the data, run the following code:
+
+```both_heatmaps = game.return_heatmaps('data/')```
+
+  
+  
+  
+  
+  
+
+## Files and Folders Included
+
+**data/** Stores win results for Player 2 for each play (iteration). Each file is titled by a number representing the play pattern.
+
 - data_variation_1: Stores win results for Player 2 for game plays on variation 1.
+
 - data_variation_2: Stores win results for Player 2 for game plays on variation 2.
 
+  
+
+**figures/** Stores figures generated from the data. Each file is titled by a number representing the play pattern.
+
+-   heatmap_variation_1.html: The heatmap for win results for Player 2 game plays on variation 1.
+    
+-   heatmap_variation_2.html: The heatmap for win results for Player 2 game plays on variation 2.
+    
+
+  
+
+**results/** contains [TODO]
+
+  
+
 **src/**
-- penney_game.py: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
 
-    **Within `penney_game.py` these two functions will return the desired outputs:**
-- **play_n_games**: Plays the specified number of games, and appends them to the proper data folder.
-    * n (int): number of games to add to the data
-    * data (str): path to data directory
-    * seed (int): seed used to generate an array of seeds for the generated decks
-    * variation (int): specifies the variation to play. Should be either 1 or 2.
-    * find_sum (boolean): if True, return a numpy array of the current win percentages for the variation. If False, return nothing.
+- **penney_game.py**: contains all of the functions necessary to run the simulation. The run_simulation() function generates a specified number of games under a specified variation and returns the finished heatmap.
 
-    Games are appended as .npy files in a data folder.
+  
 
-- **return_heatmap**: Sums the current saved set of games, then saves it as a heatmap.
-    * data (str): the data path which retrieves data for both variations.
+- **Within `penney_game.py` these two functions will return the desired outputs:**
 
-**figures/** Stores figures (in .html) from the most recent run_simulation(). These files can be opened locally.
+  - **play_n_games**: Plays the specified number of games, and appends them to the proper data folder.
 
-**penney_game**
-- penney_game_simulation.ipynb: a file which runs the code from penney_game.py
-- .gitignore: specifies which files or directories should be ignored by git 
+    * `n (int)`: number of games to add to the data
 
+    * `data (str)`: path to data directory
 
-## How it works
+    * `seed (int)`: seed used to generate an array of seeds for the generated decks
+
+    * `variation (int)`: specifies the variation to play. Should be either 1 or 2.
+
+    * `find_sum (boolean)`: if True, return a numpy array of the current win percentages for the variation. If False, return nothing.
+    
+  - **return_heatmap**: Sums the current saved set of games, then saves it as a heatmap.
+    - `data (str)`: The data path which retrieves data for both variations. 
+
+- **penney_game_simulation.ipynb**: a file which runs the code from penney_game.py; demonstrates how the code can be run.
+
+- **.gitignore**: specifies which files or directories should be ignored by git
+
+Games are appended as .npy files in a data folder.
+
+  
+  
+  
+
+## Details
 
 The two required functions are `play_n_games` and `return_heatmap`. Implementation examples are included in `penney_game_simulation.ipynb`.
 
+  
+
 `play_n_games` generates and adds the specified number of games to the proper data folder. This function requires the specification of the variation number. More information on inputs is included in the files section.
+
+  
 
 `create_heatmap` returns heatmaps for variations 1 and 2, and saves them as .html files in the figures folder.
 
+  
+
 The run_simulation() function plays a specified number of games and automatically runs two variations: winning by number of cards (variation 1) and winning by number of tricks (variation 2). The function also allows the user to set a random seed for reproducibility.
+
+  
 
 The decks are generated by shuffling an array of 26 zeros (representing black cards) and 26 ones (representing red cards). The winner of each game is determined by iterating through the deck and checking which player's specified sequence appears more frequently, either by the number of cards collected (variation 1) or by the number of tricks won (variation 2).
 
+  
+
 Results are saved in numpy arrays, with Player 2 wins recorded as zeros and Player 1 wins recorded as ones. These results are stored in the corresponding folder (based on the variation) within the data directory.
 
-Once all games for each Player 1 / Player 2 sequence combination are played, a heatmap is generated. The heatmap shows the percentage of games won by Player 2 for each sequence pairing, with the color scale ranging from dark green (high win ratio for Player 2) to dark red (low win ratio for Player 2). The full win ratio can be viewed by hovering over each box in the interactive plot.
+  
+
+Once all games for each Player 1/Player 2 sequence combination are played, a heatmap is generated. The heatmap shows the percentage of games won by Player 2 for each sequence pairing, with the color scale ranging from dark green (high win ratio for Player 2) to dark red (low win ratio for Player 2). The full win ratio can be viewed by hovering over each box in the interactive plot.
 
 ## Work Distribution Write Up:
 **Simulation Team**:
@@ -59,12 +175,12 @@ Cynthia: Wrote simulation function: randomly generates user-specified number of 
 
 **Data Management Team**:
 
-Paola: Wrote and debugged determine_winner() function. Focused on iterating through the play pattern given by the simulation team and determining who won the round for specific variation. 
+Paola: Wrote and debugged `determine_winner()` function. Focused on iterating through the play pattern given by the simulation team and determining who won the round for specific variation. 
 
-Al: Added code to determine_winner() to return and save an array as a .npy file. Wrote code to iterate over the stored arrays and find the win percentage. Coded a combined function to export a win percentage array. 
+Al: Added code to `determine_winner()` to return and save an array as a .npy file. Wrote code to iterate over the stored arrays and find the win percentage. Coded a combined function to export a win percentage array. 
 
-Mary: Tested determine_winner()  function. Wrote function to run all combinations. Helped combine all functions in one .py file so heatmap can be generated with one line of code. Checked final probabilities and corrected labeling issues with heatmap.  
+Mary: Tested `determine_winner()`  function. Wrote function to run all combinations. Helped combine all functions in one .py file so heatmap can be generated with one line of code. Checked final probabilities and corrected labeling issues with heatmap.  
 
 **Visualization Team**:
 
-Arianna: Wrote the create_heatmap() function and tested it on sample data.
+Arianna: Wrote the `create_heatmap()` function and tested it on sample data.
